@@ -3,29 +3,16 @@ import WebsiteCard from '@/components/WebsiteCard'
 
 const websites = [
   {
-    title: "Sample Portfolio",
-    description: "私のポートフォリオサイトです。React と Next.js を使用して作成しました。",
-    url: "https://example.com",
-    tags: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
-    image: "/placeholder-image.jpg"
+    title: "Mayu MyCraft",
+    description: "クリエイティブなハンドメイド作品を紹介するサイトです。オリジナルデザインの雑貨や小物を展開しています。",
+    url: "https://mayu-mycraft.com",
+    tags: ["ハンドメイド", "デザイン", "EC", "クリエイティブ"],
   },
   {
-    title: "Blog Site",
-    description: "技術的な記事や日常のことを書いているブログサイトです。",
-    url: "https://example.com/blog",
-    tags: ["Blog", "Markdown", "CMS"],
-  },
-  {
-    title: "E-commerce Demo",
-    description: "ECサイトのデモンストレーションです。商品管理や決済機能を実装しました。",
-    url: "https://example.com/shop",
-    tags: ["E-commerce", "Stripe", "Database"],
-  },
-  {
-    title: "Task Management App",
-    description: "タスク管理アプリケーションです。チームでのプロジェクト管理に使用できます。",
-    url: "https://example.com/tasks",
-    tags: ["Productivity", "React", "Firebase"],
+    title: "Sakura Saku",
+    description: "桜をテーマにした美しいウェブサイトです。日本の伝統的な美意識とモダンなデザインを融合させました。",
+    url: "https://sakura-saku.com",
+    tags: ["デザイン", "日本文化", "ビジュアル", "コンテンツ"],
   },
 ]
 
