@@ -1,5 +1,6 @@
 import RabbitAnimation from '@/components/RabbitAnimation'
 import WebsiteCard from '@/components/WebsiteCard'
+import ProfileSection from '@/components/ProfileSection'
 
 const websites = [
   {
@@ -18,13 +19,10 @@ const websites = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <main className="min-h-screen" style={{background: 'linear-gradient(135deg, rgba(255, 253, 250, 0.9) 0%, rgba(243, 244, 246, 0.9) 100%)'}}>
       <div className="container mx-auto px-4 py-12">
         <div className="text-center mb-16">
           <RabbitAnimation />
-          <h1 className="text-5xl font-bold mb-4" style={{color: '#243b53'}}>
-            Rock it Pokke!
-          </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
             私が作成したウェブサイトやプロジェクトの一覧です。
             <br />
@@ -32,7 +30,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {websites.map((website, index) => (
             <WebsiteCard
               key={index}
@@ -40,16 +38,18 @@ export default function Home() {
               description={website.description}
               url={website.url}
               tags={website.tags}
-              image={website.image}
             />
           ))}
         </div>
+      </div>
 
-        <div className="text-center mt-16">
-          <p className="text-gray-500 text-sm">
-            © 2024 Rock it Pokke! All rights reserved.
-          </p>
-        </div>
+      {/* プロフィール・自己紹介セクション */}
+      <ProfileSection />
+
+      <div className="text-center py-8">
+        <p className="text-gray-500 text-sm">
+          © 2024 Rock it Pokke! All rights reserved.
+        </p>
       </div>
     </main>
   )
