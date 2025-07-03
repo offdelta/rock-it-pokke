@@ -35,7 +35,7 @@ export default function Home() {
       <div className="container mx-auto px-4 py-12">
         <div className="text-center mb-16">
           <RabbitAnimation />
-          <h1 className="text-5xl font-bold text-navy-800 mb-4">
+          <h1 className="text-5xl font-bold mb-4" style={{color: '#243b53'}}>
             Rock it Pokke!
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">

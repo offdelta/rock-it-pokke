@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -28,7 +26,10 @@ body {
 
 @layer components {
   .card {
-    @apply bg-white/80 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200/50 p-6;
+    @apply rounded-lg shadow-lg border p-6;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(229, 231, 235, 0.5);
+    backdrop-filter: blur(8px);
   }
   
   .rabbit-container {
@@ -36,11 +37,13 @@ body {
   }
   
   .pocket {
-    @apply absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-10 bg-moss-600 rounded-t-full shadow-inner;
+    @apply absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-10 rounded-t-full shadow-inner;
+    background-color: #4d6f4d;
   }
   
   .rabbit {
-    @apply absolute bottom-8 left-1/2 transform -translate-x-1/2 w-12 h-12 text-brown-600 transition-all duration-800;
+    @apply absolute bottom-8 left-1/2 transform -translate-x-1/2 w-12 h-12 transition-all duration-800;
+    color: #b86438;
   }
 }
 

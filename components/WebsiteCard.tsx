@@ -19,14 +19,15 @@ export default function WebsiteCard({ title, description, url, tags, image }: We
         </div>
       )}
       
-      <h3 className="text-xl font-bold text-navy-800 mb-2">{title}</h3>
+      <h3 className="text-xl font-bold mb-2" style={{color: '#243b53'}}>{title}</h3>
       <p className="text-gray-600 mb-4 text-sm leading-relaxed">{description}</p>
       
       <div className="flex flex-wrap gap-2 mb-4">
         {tags.map((tag, index) => (
           <span 
             key={index}
-            className="px-3 py-1 bg-moss-100 text-moss-800 rounded-full text-xs font-medium"
+            className="px-3 py-1 rounded-full text-xs font-medium"
+            style={{backgroundColor: '#e3e8e3', color: '#273827'}}
           >
             {tag}
           </span>
@@ -37,7 +38,8 @@ export default function WebsiteCard({ title, description, url, tags, image }: We
         href={url}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center px-4 py-2 bg-navy-600 text-white rounded-lg hover:bg-navy-700 transition-colors duration-200 text-sm font-medium"
+        className="inline-flex items-center px-4 py-2 text-white rounded-lg hover:opacity-90 transition-colors duration-200 text-sm font-medium"
+        style={{backgroundColor: '#486581'}}
       >
         サイトを見る
         <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
