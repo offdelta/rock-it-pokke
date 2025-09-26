@@ -1,95 +1,139 @@
-export default function ProfileSection() {
+'use client'
+
+import React from 'react'
+import Footer from './Footer'
+
+interface ProfileSectionProps {
+  scrollProgress?: number
+}
+
+export default function ProfileSection({ scrollProgress = 0 }: ProfileSectionProps) {
+  const titleText = '自己紹介'
+
+  const textLines = [
+    '小さな小さなアトリエから、あなたの夢をデザインしています。',
+    '',
+    '「大切なものを、いつでも手元に。」',
+    '',
+    'スマホ一つで何でも叶う時代。だからこそ、お客様の想いや宝物を、手のひらサイズのウェブサイトに変えて、いつでも持ち歩けるようお手伝いします。',
+    '',
+    '趣味、教室、個人のバイオグラフィなど、小さなご要望こそ大歓迎です。まずはお気軽に、あなたの「大切」についてお聞かせください。',
+  ]
+
+  // スクロール進行に合わせて3パート（タイトル→本文→アバター）を順番にスライドアップ
+  const clamp = (v: number, min = 0, max = 1) => Math.max(min, Math.min(max, v))
+  const easeInOut = (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t)
+  const p = clamp(scrollProgress)
+
+  const progress = (start: number, duration: number) => clamp((p - start) / duration)
+
+  const titleStart = 0.05
+  const titleDuration = 0.3
+  const afterTitleGap = 0.07
+  const textStart = titleStart + titleDuration + afterTitleGap
+
+  const titleProgress = progress(titleStart, titleDuration)
+  const titleOpacity = titleProgress
+  const titleY = 50 * (1 - easeInOut(titleProgress))
+
+  const textWindow = 0.45
+  const totalLines = textLines.length
+  const lineSegment = totalLines > 0 ? textWindow / totalLines : 0
+  const lineDuration = lineSegment * 0.92
+  const lineGap = lineSegment - lineDuration
+
+  const getLineProgress = (index: number) => {
+    if (lineSegment <= 0) return 1
+    const lineStart = textStart + index * lineSegment
+    return progress(lineStart, lineDuration)
+  }
+
+  const textBlockProgress = textWindow > 0 ? progress(textStart, textWindow) : 1
+  const textBlockOpacity = textBlockProgress
+  const textBlockY = 100 * (1 - easeInOut(textBlockProgress))
+
+  const afterTextGap = 0.05
+  const avatarStart = textStart + textWindow + afterTextGap
+  const avatarDuration = 0.08
+  const avatarProgress = progress(avatarStart, avatarDuration)
+  const avatarOpacity = avatarProgress
+  const avatarY = 90 * (1 - easeInOut(avatarProgress))
+
   return (
-    <section className="py-16 px-4">
-      <div className="max-w-4xl mx-auto">
-        {/* タイトル */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{color: '#243b53'}}>
-            4人のママだから、わかること。
-          </h2>
-          <p className="text-lg md:text-xl" style={{color: '#486581'}}>
-            あなたの想いをカタチにする、寄り添うウェブ制作。
-          </p>
-        </div>
+    <section className="pt-20 pb-0 px-4" style={{ backgroundColor: '#a1cbb9' }}>
+      <div className="max-w-3xl mx-auto text-center">
+        <h2
+          className="text-3xl md:text-4xl font-bold text-center mb-8 mt-8"
+          style={{
+            color: '#6a4e2e',
+            textShadow: '1px 1px 2px rgba(106, 78, 46, 0.2)',
+            letterSpacing: '-0.02em',
+            transform: `translateY(${titleY}px)`,
+            opacity: titleOpacity,
+            transition: 'none',
+          }}
+        >
+          {titleText}
+        </h2>
 
-        {/* ご挨拶 */}
-        <div className="bg-white rounded-2xl shadow-sm p-8 mb-8" style={{backgroundColor: 'rgba(255, 255, 255, 0.9)'}}>
-          <h3 className="text-2xl font-bold mb-6" style={{color: '#243b53'}}>ご挨拶</h3>
-          <div className="space-y-4 text-gray-700 leading-relaxed">
-            <p>
-              はじめまして！<br />
-              〇〇（屋号・会社名）代表の〇〇（お名前）です。
-            </p>
-            <p>
-              都内で4人の子どもたちを育てるアラフォーママであり、企業のウェブサイトを制作する会社の代表をしています。
-            </p>
-            <p>
-              プライベートでは、子どもたちの声が響く賑やかな家で、MacBookを開いて仕事をするのが私の日常。ベランダの小さな家庭菜園で植物の成長に癒されたり、週末は家族みんなでお寿司や鰻を囲んで「おいしいね」と言い合ったり。そんな何気ない暮らしのひとときを大切にしています。
-            </p>
+        <div
+          className="space-y-4"
+          style={{
+            opacity: textBlockOpacity,
+            transform: `translateY(${textBlockY}px)`,
+            transition: 'none',
+          }}
+        >
+          {textLines.map((line, i) => {
+            const lineProgress = getLineProgress(i)
+            const lineOpacity = lineProgress
+            const lineY = 120 * (1 - easeInOut(lineProgress))
+            const isSpacer = line.trim().length === 0
+
+            return (
+              <div
+                key={i}
+                style={{
+                  opacity: lineOpacity,
+                  transform: `translateY(${lineY}px)`,
+                  transition: 'none',
+                  minHeight: isSpacer ? '1rem' : undefined,
+                }}
+              >
+                {isSpacer ? (
+                  <span aria-hidden="true">&nbsp;</span>
+                ) : (
+                  <p className="text-base md:text-lg leading-relaxed" style={{ color: '#5D4E37' }}>
+                    {line}
+                  </p>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      
+        {/* アバター：テキストの後、十分な余白を取ってから下からスライド表示 */}
+        <div
+          style={{
+            opacity: avatarOpacity,
+            transform: `translateY(${avatarY}px)`,
+            transition: 'none',
+            marginTop: '1.5rem',
+            }}
+        >
+          <div className="flex justify-center">
+            <img
+              src="/img/pokke-daisy.png"
+              alt="プロフィールアバター"
+              className="w-32 h-32 object-cover rounded-full border-2 shadow-lg"
+              style={{ borderColor: '#5D4E37' }}
+            />
           </div>
         </div>
+      </div>
 
-        {/* この仕事への想い */}
-        <div className="bg-white rounded-2xl shadow-sm p-8 mb-8" style={{backgroundColor: 'rgba(250, 248, 245, 0.9)'}}>
-          <h3 className="text-2xl font-bold mb-6" style={{color: '#243b53'}}>この仕事への想い</h3>
-          <div className="space-y-4 text-gray-700 leading-relaxed">
-            <p>
-              私がこの仕事を始めたのは、第一子の出産がきっかけでした。<br />
-              子育てをしながら社会とつながりを持ちたい、自分のスキルで誰かの役に立ちたい。そう考え、個人事業主として歩み始めました。
-            </p>
-            <p>
-              当時は、家事と育児と仕事の両立に奮闘する毎日。<br />
-              「もっと効率よく情報発信できたら…」<br />
-              「想いはたくさんあるのに、どう伝えたらいいか分からない…」<br />
-              そんな自身の経験から、同じように頑張る女性、特にママたちの力になりたいと強く思うようになりました。
-            </p>
-            <p className="font-medium" style={{color: '#486581'}}>
-              ウェブサイトは、単なる「事業の顔」ではありません。<br />
-              忙しいあなたの代わりに、24時間365日、その想いやサービスの魅力を伝え続けてくれる、頼もしいパートナーです。
-            </p>
-            <p>
-              おかげさまで多くの素敵なご縁に恵まれ、このたび法人化いたしました。<br />
-              これからも、一人ひとりの心に寄り添い、「あなただけの価値」が伝わるウェブサイトを、心を込めて作っていきます。
-            </p>
-          </div>
-        </div>
-
-        {/* 私の強み・大切にしていること */}
-        <div className="bg-white rounded-2xl shadow-sm p-8" style={{backgroundColor: 'rgba(255, 255, 255, 0.9)'}}>
-          <h3 className="text-2xl font-bold mb-8" style={{color: '#243b53'}}>私の強み・大切にしていること</h3>
-          
-          <div className="space-y-8">
-            {/* 強み① */}
-            <div className="border-l-4 pl-6" style={{borderColor: '#4d6f4d'}}>
-              <h4 className="text-xl font-bold mb-3" style={{color: '#3d5a3d'}}>
-                強み①：ママ目線の「共感力」と「提案力」
-              </h4>
-              <p className="text-gray-700 leading-relaxed">
-                4人の子育て経験から、ママ起業家や女性オーナーが抱える時間の制約や特有の悩みを深く理解しています。専門用語を並べるのではなく、「それ、すっごく分かります！」という共感からスタート。あなたの状況に合わせた最適なウェブサイトの形を、一緒に見つけます。
-              </p>
-            </div>
-
-            {/* 強み② */}
-            <div className="border-l-4 pl-6" style={{borderColor: '#b86438'}}>
-              <h4 className="text-xl font-bold mb-3" style={{color: '#b86438'}}>
-                強み②：暮らしに根差した「心地よいデザイン」
-              </h4>
-              <p className="text-gray-700 leading-relaxed">
-                お家の模様替えで「どうすれば家族が快適に過ごせるかな？」と考えるように、ウェブサイトでも「どうすればお客様が心地よく、知りたい情報にたどり着けるか」を第一に考えます。洗練されていて、なおかつ温かみのある、あなたらしい空間（ウェブサイト）をデザインするのが得意です。
-              </p>
-            </div>
-
-            {/* 強み③ */}
-            <div className="border-l-4 pl-6" style={{borderColor: '#486581'}}>
-              <h4 className="text-xl font-bold mb-3" style={{color: '#486581'}}>
-                強み③：PCが苦手でも安心！「とことん丁寧なサポート」
-              </h4>
-              <p className="text-gray-700 leading-relaxed">
-                「更新作業が難しそう…」そんな不安も、Macをこよなく愛する私にお任せください！直感的で分かりやすい操作方法のレクチャーや、納品後のサポートも充実しています。安心してあなたのビジネスに集中できるよう、全力でバックアップします。
-              </p>
-            </div>
-          </div>
-        </div>
+      <div className="mt-12 w-screen relative left-1/2 -translate-x-1/2">
+        <Footer />
       </div>
     </section>
   )

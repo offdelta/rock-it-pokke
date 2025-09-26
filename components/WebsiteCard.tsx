@@ -19,8 +19,8 @@ export default function WebsiteCard({ title, description, url, tags, image }: We
         </div>
       )}
       
-      <h3 className="text-xl font-bold mb-2" style={{color: '#243b53'}}>{title}</h3>
-      <p className="text-gray-600 mb-4 text-sm leading-relaxed">{description}</p>
+      <h3 className="text-xl font-bold mb-2" style={{color: '#6a4e2e'}}>{title}</h3>
+      <p className="mb-4 text-sm leading-relaxed" style={{color: '#6a4e2e'}}>{description}</p>
       
       <div className="flex flex-wrap gap-2 mb-4">
         {tags.map((tag, index) => (

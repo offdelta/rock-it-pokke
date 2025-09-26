@@ -48,11 +48,16 @@ module.exports = {
       animation: {
         'bounce-horizontal': 'bounce-horizontal 1s ease-in-out infinite',
         'jump-in': 'jump-in 0.8s ease-out forwards',
+        'gentle-bounce': 'gentle-bounce 2.2s ease-in-out infinite',
       },
       keyframes: {
         'bounce-horizontal': {
           '0%, 100%': { transform: 'translateX(0)' },
           '50%': { transform: 'translateX(10px)' },
+        },
+        'gentle-bounce': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-6px)' },
         },
         'jump-in': {
           '0%': { 
