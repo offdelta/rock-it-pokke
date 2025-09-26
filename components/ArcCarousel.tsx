@@ -82,15 +82,6 @@ const ArcCarousel: React.FC<ArcCarouselProps> = ({ scrollProgress = 1, fadeOutPr
       genre: "ギャラリーサイト",
       clientType: "盆栽陶芸家",
       url: "#"
-    },
-    {
-      id: 6,
-      image: "/img/ma-poche-logo.png",
-      title: "新しいプロジェクト",
-      content: "ma pocheの新しいプロジェクトです。あなたの大切な思い出やアイデアを形にするお手伝いをします。どんな小さなことでもお気軽にご相談ください。",
-      genre: "新規プロジェクト",
-      clientType: "すべての方へ",
-      url: "https://example.com/new-project"
     }
   ]
 
@@ -376,22 +367,27 @@ const ArcCarousel: React.FC<ArcCarouselProps> = ({ scrollProgress = 1, fadeOutPr
       <div className="w-full" style={{ transform: 'scale(0.9)', transformOrigin: 'center top' }}>
         {/* 見出しは自己紹介と同じくstickyで位置をキープ */}
         <div className="w-full flex justify-center" style={{ position: 'sticky', top: '5rem', zIndex: 5 }}>
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 mt-8" style={{
-          color: '#6a4e2e',
-          textShadow: '1px 1px 2px rgba(106, 78, 46, 0.2)',
-          fontWeight: 'bold',
-          letterSpacing: '-0.02em'
-        }}>
-          {titleText.split('').map((char, index) => (
-            <span
-              key={index}
-              style={getTitleCharStyle(index)}
-              className="inline-block mx-1"
-            >
-              {char}
-            </span>
-          ))}
-        </h2>
+          <div className="flex flex-col items-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-2 mt-8" style={{
+              color: '#6a4e2e',
+              textShadow: '1px 1px 2px rgba(106, 78, 46, 0.2)',
+              fontWeight: 'bold',
+              letterSpacing: '-0.02em'
+            }}>
+              {titleText.split('').map((char, index) => (
+                <span
+                  key={index}
+                  style={getTitleCharStyle(index)}
+                  className="inline-block mx-1"
+                >
+                  {char}
+                </span>
+              ))}
+            </h2>
+            <p className="text-sm text-[#3E2723]">
+              ※掲載中の制作実績は一部抜粋です。
+            </p>
+          </div>
         </div>
         <div 
           className="relative w-full max-w-7xl mx-auto"

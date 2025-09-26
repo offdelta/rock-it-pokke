@@ -47,9 +47,12 @@ export default function PortfolioSection() {
   return (
     <section className="pt-48 pb-32 px-4" style={{ backgroundColor: '#98E4D6' }}>
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-24" style={{color: '#6a4e2e'}}>
+        <h2 className="text-3xl font-bold text-center mb-4" style={{color: '#6a4e2e'}}>
           制作実績
         </h2>
+        <p className="text-center text-sm text-[#3E2723] mb-20">
+          ※掲載中の制作実績は一部抜粋です。
+        </p>
         
         <div className="space-y-20">
           {portfolioItems.map((item) => (

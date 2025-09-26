@@ -45,25 +45,38 @@ export default function ImmersiveLayout() {
   }, [started])
 
 
-  // スクロール量に基づいた計算
-  // テキストが表示された後に約1.4画面分ホールド（以前の70%）
-  const holdDistance = windowHeight * 1.4
-  const heroProgress = Math.min(Math.max(scrollY / windowHeight, 0), 1) // 1画面分でヒーロー完了
+  // スクロール量に基づいた各フェーズの高さ（vh比率で調整）
+  const heroStageHeight = windowHeight * 1.85
+  const heroHoldHeight = windowHeight * 1.6
+  const heroFadeHeight = windowHeight * 1.1
+  const carouselStageHeight = windowHeight * 1.2
+  const carouselHoldHeight = windowHeight * 2.3
+  const carouselFadeHeight = windowHeight * 0.9
+  const profileIntroHeight = windowHeight * 1.3
+  const profileHoldHeight = windowHeight * 2.8
+
+  const heroHoldEnd = heroStageHeight + heroHoldHeight
+  const carouselStageEnd = heroHoldEnd + heroFadeHeight + carouselStageHeight
+  const carouselHoldEnd = carouselStageEnd + carouselHoldHeight
+  const carouselFadeEnd = carouselHoldEnd + carouselFadeHeight
+  const profileIntroStart = carouselFadeEnd
+  const profileIntroEnd = profileIntroStart + profileIntroHeight
+  const timelineEnd = profileIntroEnd + profileHoldHeight
+
+  const heroProgressRaw = heroStageHeight > 0 ? scrollY / heroStageHeight : 0
+  const heroProgress = Math.min(Math.max(heroProgressRaw, 0), 1)
   const carouselProgress = Math.min(
-    Math.max((scrollY - (windowHeight + holdDistance)) / windowHeight, 0),
+    Math.max((scrollY - heroHoldEnd) / (carouselStageHeight || 1), 0),
     1
-  ) // ホールド後にカルーセル
-  // カルーセルが出揃った後のホールド
-  const carouselHoldDistance = windowHeight * 2
+  )
   const carouselFadeOutProgress = Math.min(
-    Math.max((scrollY - (windowHeight + holdDistance + windowHeight + carouselHoldDistance)) / (windowHeight * 0.5), 0),
+    Math.max((scrollY - carouselHoldEnd) / (carouselFadeHeight || 1), 0),
     1
-  ) // カルーセルのフェードアウト
-  // プロフィール開始を少し早め（1.0 * vh 後）
+  )
   const profileProgress = Math.min(
-    Math.max((scrollY - (windowHeight + holdDistance + windowHeight + carouselHoldDistance + windowHeight * 1.0)) / (windowHeight * 0.5), 0),
+    Math.max((scrollY - profileIntroStart) / (profileIntroHeight || 1), 0),
     1
-  ) // プロファイルセクション
+  )
 
   // ロゴアニメーション - 小さい状態から画面の半分サイズまで拡大
   const logoOpacity = 1 // 常に表示
@@ -75,25 +88,72 @@ export default function ImmersiveLayout() {
   
   // テキストアニメーション - ロゴがある程度大きくなってから表示
   const textStartPoint = 0.4 // 40%進行時点でテキスト表示開始（ロゴがある程度大きくなってから）
-  const sectionOpacity = heroProgress > textStartPoint 
-    ? Math.min((heroProgress - textStartPoint) * 2, 1) // より速くフェードイン
-    : 0
-    
-  const textProgress = Math.max(0, Math.min((heroProgress - textStartPoint) * 2, 1))
-  const easeInOut = (t: number) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
-  // 下から上へのスライドアニメーション（100pxから0pxへ）
-  const sectionTranslateY = 100 * (1 - easeInOut(textProgress))
+  const textWindow = Math.max(1 - textStartPoint, 0.0001)
+  const textEnvelope = Math.max(0, Math.min((heroProgressRaw - textStartPoint) / textWindow, 1))
+  const sectionOpacity = textEnvelope
+
+  const textProgress = Math.pow(textEnvelope, 1.25)
+  const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3)
+  const lineDelayStep = 0.3
+  const baseLineDuration = 0.9
+  const maxLineOffset = 32
+
+  const getLineStyle = (index: number) => {
+    const start = index * lineDelayStep
+    const remainingWindow = Math.max(1 - start, 0.0001)
+    const effectiveDuration = Math.min(baseLineDuration, remainingWindow)
+    const progress = Math.max(0, Math.min((textProgress - start) / effectiveDuration, 1))
+    const eased = easeOutCubic(progress)
+
+    return {
+      opacity: eased,
+      transform: `translateY(${(1 - eased) * maxLineOffset}px)`
+    }
+  }
+
+  const textLines = [
+    {
+      id: 'lead-word',
+      className: 'm-0 text-base md:text-lg leading-[1.8] text-[#6a4e2e]',
+      content: (
+        <span className="font-extrabold md:font-black tracking-tight" style={{ fontSize: '1.1em' }}>
+          マ ポッシュ
+        </span>
+      )
+    },
+    {
+      id: 'pronunciation',
+      className: 'm-0 text-xs md:text-sm tracking-[0.35em] text-[#6a4e2e]',
+      style: { marginBottom: '0.6em' },
+      content: '【フランス語で”私のポケット”】'
+    },
+    {
+      id: 'line-1',
+      className: 'm-0 text-base md:text-lg leading-[1.9] text-[#6a4e2e]',
+      content: 'あなたの想いを、ポケットへ。'
+    },
+    {
+      id: 'line-2',
+      className: 'm-0 text-base md:text-lg leading-[1.85] text-[#6a4e2e]',
+      style: { marginTop: '0.1em' },
+      content: 'いつでも開ける、私だけの宝箱サイト。'
+    }
+  ]
   
-  // フェードアウトアニメーション - ホールド後にフェードアウト開始
-  const fadeOutStart = windowHeight + holdDistance
-  const fadeProgress = scrollY > fadeOutStart 
-    ? Math.min((scrollY - fadeOutStart) / (windowHeight * 0.5), 1)  // 0.5画面分でフェードアウト完了
-    : 0
-    
-  const boxOpacityFade = Math.max(1 - fadeProgress, 0)
+  // ヒーローのフェードアウト（カルーセル表示に合わせてゆっくり消える）
+  const heroFadeProgress = Math.min(
+    Math.max((scrollY - heroHoldEnd) / (heroFadeHeight || 1), 0),
+    1
+  )
+  const boxOpacityFade = Math.max(1 - heroFadeProgress, 0)
+
+  const baseWindowHeight = windowHeight || 1
+  const timelineTotalHeight = timelineEnd
+
+  const containerMinHeight = Math.max(timelineTotalHeight, baseWindowHeight * 8)
 
   return (
-    <div ref={containerRef} className="relative" style={{ minHeight: '1000vh' }}>
+    <div ref={containerRef} className="relative" style={{ minHeight: `${containerMinHeight}px` }}>
       {/* Section 1: Hero with Logo */}
       <div className="fixed inset-0 w-full h-screen overflow-hidden" style={{ zIndex: 1, backgroundColor: '#a1cbb9' }}>
         {/* ロゴ+テキスト統合ボックス */}
@@ -103,6 +163,7 @@ export default function ImmersiveLayout() {
             // 初回スクロールまでは何も表示しない
             opacity: started ? boxOpacityFade : 0,
             transition: 'opacity 0.5s ease-out',
+            transform: 'translateY(-8vh)'
           }}
         >
         
@@ -117,7 +178,7 @@ export default function ImmersiveLayout() {
             <img
               src="/img/ma-poche-logo.png"
               alt="ma poche Logo"
-              style={{ height: '50vh', width: 'auto' }}
+              style={{ height: '40vh', width: 'auto' }}
             />
           </div>
 
@@ -125,27 +186,29 @@ export default function ImmersiveLayout() {
           <div
             style={{
               opacity: sectionOpacity,
-              transform: `translateY(${sectionTranslateY}px)`,
+              transform: 'translateY(0px)',
               transition: 'none', // スクロールに直接連動
             }}
           >
             <div className="text-center max-w-3xl mx-auto px-4">
-              <div className="mt-4 space-y-4">
-                <p className="text-base md:text-lg" style={{ 
-                  lineHeight: '1.8',
-                  color: '#6a4e2e'
-                }}>
-                  <span className="font-extrabold md:font-black tracking-tight" style={{ fontSize: '1.1em' }}>マ ポッシュ</span>
-                  <br />
-                  <span style={{ fontSize: '0.7em', display: 'inline-block', marginBottom: '1.4em' }}>【フランス語で”私のポケット”】</span>
-                </p>
-                <p className="text-base md:text-lg" style={{ 
-                  lineHeight: '1.8',
-                  color: '#6a4e2e'
-                }}>
-                  子供の頃に宝物を詰め込んだポケット、<br />
-                  <span style={{ display: 'inline-block', marginTop: '0.8em' }}>もう一度膨らませてみませんか。</span>
-                </p>
+              <div className="mt-2 flex flex-col items-center gap-2.5">
+                {textLines.map((line, index) => {
+                  const animationStyle = getLineStyle(index)
+                  return (
+                    <p
+                      key={line.id}
+                      className={line.className}
+                      style={{
+                        ...(line.style || {}),
+                        opacity: animationStyle.opacity,
+                        transform: animationStyle.transform,
+                        willChange: 'transform, opacity'
+                      }}
+                    >
+                      {line.content}
+                    </p>
+                  )
+                })}
               </div>
             </div>
           </div>
@@ -203,8 +266,6 @@ export default function ImmersiveLayout() {
           onClick={() => {
           const y = window.scrollY
           const vh = window.innerHeight
-          const hold = vh * 1.4
-          const carouselHold = vh * 2
 
           // 初回クリック時は“スクロール開始”扱いにして少しだけ進める
           if (!started && y <= 0) {
@@ -214,29 +275,24 @@ export default function ImmersiveLayout() {
             return
           }
 
-          // 2回目以降はセクション単位で移動
-          // アンカー
-          // Hero完了: AHeroEnd = vh
-          // Heroホールド終了: AHldEnd = AHeroEnd + hold
-          // Carousel表示完了: ACarouselShowEnd = AHldEnd + vh
-          // Carouselホールド終了: ACarouselHoldEnd = ACarouselShowEnd + carouselHold
-          // Profile開始: AProfile = ACarouselHoldEnd + 1.0*vh（早め）
-          const AHeroEnd = vh
-          const AHldEnd = AHeroEnd + hold
-          const ACarouselShowEnd = AHldEnd + vh
-          const ACarouselHoldEnd = ACarouselShowEnd + carouselHold
-          const AProfile = ACarouselHoldEnd + vh * 1.0
-
           let nextScrollPosition = 0
-          if (y < AHeroEnd) {
-            // Hero中 → Heroホールド終端へ
-            nextScrollPosition = AHldEnd
-          } else if (y < ACarouselHoldEnd) {
-            // Carousel表示〜ホールド中 → ホールド終端へ
-            nextScrollPosition = ACarouselHoldEnd
-          } else if (y < AProfile) {
-            // フェードアウト域 → Profile開始へ（少し先まで）
-            nextScrollPosition = AProfile + vh * 0.1
+          const heroTarget = heroHoldEnd
+          const carouselTarget = carouselHoldEnd
+          const profileTarget = profileIntroStart + profileIntroHeight * 0.85
+          const finalTarget = Math.max(timelineEnd - vh * 0.2, 0)
+
+          if (y < heroHoldEnd) {
+            // ヒーローフェーズ中 → ホールド終端へ
+            nextScrollPosition = heroTarget
+          } else if (y < carouselHoldEnd) {
+            // カルーセル表示〜ホールド中 → ホールド終端へ
+            nextScrollPosition = carouselTarget
+          } else if (y < profileIntroEnd) {
+            // プロフィール導入へ少し先行してスクロール
+            nextScrollPosition = profileTarget
+          } else if (y < finalTarget) {
+            // プロフィールの残りを一気に表示
+            nextScrollPosition = finalTarget
           } else {
             // 最後はトップへ戻る
             nextScrollPosition = 0
