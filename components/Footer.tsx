@@ -1,5 +1,7 @@
 'use client'
 
+import { ACCENT_SURFACE, ACCENT_SURFACE_STRONG } from './theme'
+
 export default function Footer() {
   const currentYear = new Date().getFullYear()
 
@@ -8,10 +10,10 @@ export default function Footer() {
       className="w-full py-4 text-center text-xs tracking-wide"
       style={{
         color: '#5D4E37',
-        background: 'rgba(189, 221, 207, 0.72)',
-        borderTop: '1px solid rgba(93, 78, 55, 0.25)',
+        background: ACCENT_SURFACE,
+        borderTop: `1px solid ${ACCENT_SURFACE_STRONG}`,
         backdropFilter: 'blur(10px)',
-        boxShadow: '0 -2px 8px rgba(93, 78, 55, 0.08)',
+        boxShadow: `0 -2px 10px ${ACCENT_SURFACE}`,
       }}
     >
       © {currentYear} ma poche. All rights reserved.

@@ -2,22 +2,27 @@
 
 import React from 'react'
 import Footer from './Footer'
+import { ACCENT_COLOR, ACCENT_SURFACE, ACCENT_SURFACE_STRONG } from './theme'
 
 interface ProfileSectionProps {
   scrollProgress?: number
 }
 
-export default function ProfileSection({ scrollProgress = 0 }: ProfileSectionProps) {
+export default function ProfileSection({ scrollProgress = 1 }: ProfileSectionProps) {
   const titleText = '自己紹介'
 
   const textLines = [
-    '小さな小さなアトリエから、あなたの夢をデザインしています。',
-    '',
     '「大切なものを、いつでも手元に。」',
     '',
-    'スマホ一つで何でも叶う時代。だからこそ、お客様の想いや宝物を、手のひらサイズのウェブサイトに変えて、いつでも持ち歩けるようお手伝いします。',
+    'スマホ一つで何でも叶う時代だからこそ、',
+    'お客様の想いや宝物を、',
+    '手のひらサイズのウェブサイトに変えて、',
+    'いつでも持ち歩けるようお手伝いします。',
     '',
-    '趣味、教室、個人のバイオグラフィなど、小さなご要望こそ大歓迎です。まずはお気軽に、あなたの「大切」についてお聞かせください。',
+    '趣味、教室、個人のバイオグラフィなど、',
+    '小さなご要望こそ大歓迎です。',
+    '',
+    'まずはお気軽に、あなたの「大切」についてお聞かせください。',
   ]
 
   // スクロール進行に合わせて3パート（タイトル→本文→アバター）を順番にスライドアップ
@@ -60,7 +65,12 @@ export default function ProfileSection({ scrollProgress = 0 }: ProfileSectionPro
   const avatarY = 90 * (1 - easeInOut(avatarProgress))
 
   return (
-    <section className="pt-20 pb-0 px-4" style={{ backgroundColor: '#a1cbb9' }}>
+    <section
+      className="relative pt-16 pb-0 px-4"
+      style={{
+        background: 'linear-gradient(to bottom, rgba(255,255,255,0.98) 0%, #eaf6f2 55%, #c9f1e0 100%)',
+      }}
+    >
       <div className="max-w-3xl mx-auto text-center">
         <h2
           className="text-3xl md:text-4xl font-bold text-center mb-8 mt-8"
@@ -126,7 +136,7 @@ export default function ProfileSection({ scrollProgress = 0 }: ProfileSectionPro
               src="/img/pokke-daisy.png"
               alt="プロフィールアバター"
               className="w-32 h-32 object-cover rounded-full border-2 shadow-lg"
-              style={{ borderColor: '#5D4E37' }}
+              style={{ borderColor: ACCENT_COLOR }}
             />
           </div>
         </div>

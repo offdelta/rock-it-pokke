@@ -2,6 +2,13 @@
 
 import React from 'react'
 import Image from 'next/image'
+import {
+  ACCENT_COLOR,
+  ACCENT_SURFACE,
+  ACCENT_SURFACE_STRONG,
+  PRIMARY_BROWN,
+  PRIMARY_BROWN_DARK,
+} from './theme'
 
 interface ProjectModalProps {
   isOpen: boolean
@@ -32,19 +39,29 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, onClose, project })
       onClick={onClose}
     >
       <div 
-        className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+        className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
         style={{
           position: 'relative',
-          zIndex: 10000
+          zIndex: 10000,
+          boxShadow: '0 28px 60px rgba(0, 0, 0, 0.18)',
         }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* ヘッダー */}
-        <div className="flex justify-between items-center p-6 border-b">
-          <h2 className="text-2xl font-bold text-[#3E2723]">プロジェクト詳細</h2>
+        <div
+          className="flex justify-between items-center p-6 rounded-t-2xl"
+          style={{
+            background: `linear-gradient(130deg, ${PRIMARY_BROWN} 0%, ${PRIMARY_BROWN_DARK} 100%)`,
+            borderColor: ACCENT_SURFACE_STRONG,
+            color: '#fff',
+          }}
+        >
+          <h2 className="text-2xl font-bold tracking-wide" style={{ letterSpacing: '0.08em' }}>
+            プロジェクト詳細
+          </h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 text-2xl font-bold w-8 h-8 flex items-center justify-center"
+            className="text-white/80 hover:text-white transition-colors text-2xl font-bold w-8 h-8 flex items-center justify-center"
             aria-label="閉じる"
           >
             ×
@@ -68,26 +85,53 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, onClose, project })
           {/* プロジェクト情報 */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
-              <span className="text-xs text-gray-500 uppercase tracking-wide">Case {project.id}</span>
+              <div
+                className="w-2.5 h-2.5 rounded-full"
+                style={{ background: ACCENT_COLOR, boxShadow: `0 0 0 6px ${ACCENT_SURFACE}` }}
+              ></div>
+              <span
+                className="text-xs uppercase tracking-[0.35em] font-semibold"
+                style={{ color: ACCENT_COLOR }}
+              >
+                Case {project.id}
+              </span>
             </div>
 
-            <h3 className="text-xl font-bold text-[#3E2723] mb-4">
+            <h3
+              className="text-xl md:text-2xl font-bold mb-4"
+              style={{ color: PRIMARY_BROWN, letterSpacing: '-0.01em' }}
+            >
               {project.title}
             </h3>
 
-            <div className="space-y-4 text-[#5D4E37] leading-relaxed mb-6">
+            <div
+              className="space-y-4 leading-relaxed mb-6"
+              style={{ color: '#5D4E37' }}
+            >
               <p>{project.content}</p>
               {project.modalDescription && (
                 <p>{project.modalDescription}</p>
               )}
             </div>
 
-            <div className="flex justify-between items-center pt-4 border-t">
-              <span className="bg-gray-100 px-3 py-1 rounded-full text-sm text-[#486581]">
+            <div
+              className="flex justify-between items-center pt-4 border-t"
+              style={{ borderTopColor: ACCENT_SURFACE_STRONG }}
+            >
+              <span
+                className="px-3 py-1 rounded-full text-xs font-medium tracking-wide"
+                style={{
+                  background: ACCENT_SURFACE,
+                  color: ACCENT_COLOR,
+                  border: `1px solid ${ACCENT_SURFACE_STRONG}`,
+                }}
+              >
                 {project.genre}
               </span>
-              <span className="text-sm text-[#b86438] font-medium">
+              <span
+                className="text-sm font-semibold"
+                style={{ color: PRIMARY_BROWN }}
+              >
                 {project.clientType}
               </span>
             </div>
@@ -101,8 +145,18 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, onClose, project })
             href={project.url || '#'}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full bg-gradient-to-r from-[#7f4e01] to-[#8B6239] text-white py-3 rounded-lg hover:from-[#4A320E] hover:to-[#6B4829] transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            className="w-full text-white py-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2"
+            style={{
+              background: ACCENT_COLOR,
+              boxShadow: '0 16px 30px rgba(77, 111, 77, 0.28)'
+            }}
             onClick={(e) => e.stopPropagation()}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(77, 111, 77, 0.92)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = ACCENT_COLOR
+            }}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -113,20 +167,18 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, onClose, project })
           {/* 閉じるボタン */}
           <button
             onClick={onClose}
-            className="w-full py-3 rounded-lg transition-all duration-300 font-medium"
+            className="w-full py-3 rounded-lg transition-all duration-300 font-medium border focus:outline-none focus:ring-2 focus:ring-offset-2"
             style={{
-              background: 'linear-gradient(135deg, rgba(184, 134, 11, 0.1) 0%, rgba(139, 105, 20, 0.1) 100%)',
-              border: '1px solid rgba(184, 134, 11, 0.3)',
-              color: '#8B6914',
-              boxShadow: '0 2px 4px rgba(184, 134, 11, 0.1)'
+              background: ACCENT_SURFACE,
+              borderColor: ACCENT_COLOR,
+              color: ACCENT_COLOR,
+              boxShadow: `0 6px 16px ${ACCENT_SURFACE}`,
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'linear-gradient(135deg, rgba(184, 134, 11, 0.2) 0%, rgba(139, 105, 20, 0.2) 100%)'
-              e.currentTarget.style.borderColor = 'rgba(184, 134, 11, 0.5)'
+              e.currentTarget.style.background = 'rgba(77, 111, 77, 0.18)'
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'linear-gradient(135deg, rgba(184, 134, 11, 0.1) 0%, rgba(139, 105, 20, 0.1) 100%)'
-              e.currentTarget.style.borderColor = 'rgba(184, 134, 11, 0.3)'
+              e.currentTarget.style.background = ACCENT_SURFACE
             }}
           >
             閉じる

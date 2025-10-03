@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import ProjectModal from './ProjectModal'
+import { ACCENT_COLOR, ACCENT_SURFACE, ACCENT_SURFACE_STRONG } from './theme'
 
 interface PortfolioItem {
   id: number
@@ -38,12 +39,12 @@ const ArcCarousel: React.FC<ArcCarouselProps> = ({ scrollProgress = 1, fadeOutPr
   const portfolioData: PortfolioItem[] = [
     {
       id: 1,
-      image: "/img/clients/qdopp-long.jpg",
-      title: "多言語対応で世界へ！",
-      content: "国際ビジネスコンサルティング企業の英語と日本語両言語対応のWebサイトです。アニメーションをふんだんに使用し、リズミカルで閲覧する人がワクワクするような見た目になっています。",
-      genre: "サービス紹介",
-      clientType: "企業",
-      url: "https://example.com/project1"
+      image: "/img/clients/imaokamachinao-long.png",
+      title: "静謐な盆栽陶芸の世界へ",
+      content: "世に広まった全作品の情報を集約する『記録の場』を兼ねたデジタルアーカイブです。日英バイリンガルで亡き陶芸作家の創作の軌跡を公開し、その芸術世界を未来へ繋ぐことを目指します。",
+      genre: "ギャラリーサイト",
+      clientType: "盆栽陶芸家",
+      url: "https://imaokamachinao-official.pokke4.com/"
     },
     {
       id: 2,
@@ -52,7 +53,7 @@ const ArcCarousel: React.FC<ArcCarouselProps> = ({ scrollProgress = 1, fadeOutPr
       content: "フラワーアレンジメントのアーティストのサイト。たくさんの作品をフィルタリングできるギャラリーとして表示し、SNSリンクも配置、お問い合わせフォームも実装。",
       genre: "作品紹介・教室・SNS",
       clientType: "個人事業主",
-      url: "https://example.com/project2"
+      url: "https://mayu-mycraft.com/"
     },
     {
       id: 3,
@@ -61,7 +62,7 @@ const ArcCarousel: React.FC<ArcCarouselProps> = ({ scrollProgress = 1, fadeOutPr
       content: "中学受験に関する情報を発信。外部サービスとの連携やSNSリンクも掲載し、よりマーケティング効果の高いサイトです。",
       genre: "統計データ",
       clientType: "自営業",
-      url: "https://example.com/project3"
+      url: "https://sakura-saku.com/"
     },
     {
       id: 4,
@@ -75,13 +76,12 @@ const ArcCarousel: React.FC<ArcCarouselProps> = ({ scrollProgress = 1, fadeOutPr
     },
     {
       id: 5,
-      image: "/img/clients/bonsai-long.jpg",
-      title: "静謐な盆栽陶芸の世界へ",
-      content: "盆栽陶芸家の作品を紹介するギャラリーサイト。素焼きの質感と苔の瑞々しさが伝わるよう、写真を大きく見せる構成にしています。",
-      modalDescription: "四季の移ろいを感じさせる落ち着いたモスグリーンと土色をベースに、作品写真が映える余白設計を施しました。WebGLを使った微細なライト演出で、陶器の陰影をほんのりと強調しています。",
-      genre: "ギャラリーサイト",
-      clientType: "盆栽陶芸家",
-      url: "#"
+      image: "/img/clients/qdopp-long.jpg",
+      title: "多言語対応で世界へ！",
+      content: "国際ビジネスコンサルティング企業の英語と日本語両言語対応のWebサイトです。アニメーションをふんだんに使用し、リズミカルで閲覧する人がワクワクするような見た目になっています。",
+      genre: "サービス紹介",
+      clientType: "企業",
+      url: "https://en.qdopp.co.jp"
     }
   ]
 
@@ -358,15 +358,17 @@ const ArcCarousel: React.FC<ArcCarouselProps> = ({ scrollProgress = 1, fadeOutPr
   const titleText = '制作実績'
 
   return (
-    <div className="flex flex-col items-start justify-start min-h-screen w-full pt-16" style={{ 
-      backgroundColor: '#a1cbb9',
-      opacity: Math.max(1 - fadeOutProgress, 0),
-      transition: 'opacity 0.5s ease-out'
-    }}>
+    <div
+      className="flex flex-col items-start justify-start min-h-screen w-full pt-16"
+      style={{
+        background: 'linear-gradient(to bottom, rgba(255,255,255,0.99) 0%, #fcf7ee 55%, #f5ebdf 85%, #f0e4d6 100%)',
+        opacity: Math.max(1 - fadeOutProgress, 0),
+        transition: 'opacity 0.5s ease-out'
+      }}
+    >
       {/* 全体スケール 90% */}
-      <div className="w-full" style={{ transform: 'scale(0.9)', transformOrigin: 'center top' }}>
-        {/* 見出しは自己紹介と同じくstickyで位置をキープ */}
-        <div className="w-full flex justify-center" style={{ position: 'sticky', top: '5rem', zIndex: 5 }}>
+      <div className="w-full" style={{ transform: 'scale(0.855)', transformOrigin: 'center top' }}>
+        <div className="w-full flex justify-center">
           <div className="flex flex-col items-center">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-2 mt-8" style={{
               color: '#6a4e2e',
@@ -384,9 +386,6 @@ const ArcCarousel: React.FC<ArcCarouselProps> = ({ scrollProgress = 1, fadeOutPr
                 </span>
               ))}
             </h2>
-            <p className="text-sm text-[#3E2723]">
-              ※掲載中の制作実績は一部抜粋です。
-            </p>
           </div>
         </div>
         <div 
@@ -404,120 +403,138 @@ const ArcCarousel: React.FC<ArcCarouselProps> = ({ scrollProgress = 1, fadeOutPr
             className="flex items-center justify-center h-[500px] sm:h-[600px] relative transition-all duration-500 ease-in-out"
             style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
           >
-          {images.map((image, index) => (
-            <div
-              key={image.id}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-                         w-[300px] h-[450px] sm:w-[350px] sm:h-[500px] rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 ease-out group"
-              style={{
-                ...getItemStyles(index),
-                cursor: 'pointer',
-                pointerEvents: 'auto',
-              }}
-              onClick={(e) => {
-                e.stopPropagation()
-                // フィルタリング後のインデックスを元のデータのインデックスにマッピング
-                const originalData = portfolioData.filter(item => item.image)[index]
-                if (originalData) {
-                  const originalIndex = portfolioData.findIndex(item => item.id === originalData.id)
-                  setSelectedProject(portfolioData[originalIndex])
-                  setModalOpen(true)
-                }
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault()
-                  setCurrentIndex(index)
-                }
-              }}
-              tabIndex={0}
-              role="button"
-              aria-label={`画像 ${index + 1}: ${image.title}`}
-            >
-              <div className="relative w-full h-full">
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  fill
-                  sizes="(max-width: 768px) 300px, 350px"
-                  className="object-cover group-hover:scale-105 transition-transform duration-300 ease-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
-                
-                {/* キャプション - 中央の画像のみ表示（白系背景上は茶色テキストに統一） */}
-                {index === currentIndex && (
-                  <div 
-                    className="absolute inset-x-0 bottom-0 p-3 pb-2 text-center"
-                    style={{
-                      // 白の濃さが途中で偏らないよう、複数段のアルファで滑らかに
-                      background: 'linear-gradient(to top, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,0.75) 55%, rgba(255,255,255,0.5) 75%, rgba(255,255,255,0) 100%)',
-                      minHeight: '84px',
-                    }}
-                  >
-                    <div className="mt-4">
-                      <div className="inline-flex items-center justify-center mt-1 mb-1">
-                        <span className="text-xs rounded-full px-3 py-1 font-medium" style={{ 
-                          color: '#ffffff',
-                          background: '#6a4e2e'
-                        }}>
-                          Case {image.id + 1}
-                        </span>
+            {images.map((image, index) => (
+              <div
+                key={image.id}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+                           w-[300px] h-[450px] sm:w-[350px] sm:h-[500px] rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 ease-out group"
+                style={{
+                  ...getItemStyles(index),
+                  cursor: 'pointer',
+                  pointerEvents: 'auto',
+                }}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  const originalData = portfolioData.filter(item => item.image)[index]
+                  if (originalData) {
+                    const originalIndex = portfolioData.findIndex(item => item.id === originalData.id)
+                    setSelectedProject(portfolioData[originalIndex])
+                    setModalOpen(true)
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    setCurrentIndex(index)
+                  }
+                }}
+                tabIndex={0}
+                role="button"
+                aria-label={`画像 ${index + 1}: ${image.title}`}
+              >
+                <div className="relative w-full h-full">
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    sizes="(max-width: 768px) 300px, 350px"
+                    className={`${image.id === 0 ? 'object-contain' : 'object-cover'} group-hover:scale-105 transition-transform duration-300 ease-out`}
+                    style={{ backgroundColor: image.id === 0 ? 'rgba(255,255,255,0.9)' : undefined }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
+
+                  {index === currentIndex && (
+                    <div 
+                      className="absolute inset-x-0 bottom-0 p-3 pb-2 text-center"
+                      style={{
+                        background: 'linear-gradient(to top, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,0.75) 55%, rgba(255,255,255,0.5) 75%, rgba(255,255,255,0) 100%)',
+                        minHeight: '84px',
+                      }}
+                    >
+                      <div className="mt-4">
+                        <div className="inline-flex items-center justify-center mt-1 mb-1">
+                          <span
+                            className="text-xs rounded-full px-3 py-1 font-medium"
+                            style={{
+                              color: '#ffffff',
+                              background: ACCENT_COLOR
+                            }}
+                          >
+                            Case {image.id + 1}
+                          </span>
+                        </div>
+                        <p className="font-semibold text-lg" style={{ color: '#6a4e2e' }}>
+                          {image.title}
+                        </p>
                       </div>
-                      <p className="font-semibold text-lg" style={{ color: '#6a4e2e' }}>
-                        {image.title}
-                      </p>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
-        {/* 下部コントロール（矢印＋ドット） */}
+      {/* 下部コントロール（矢印＋ドット＋注釈） */}
+      <div className="w-full flex justify-center" style={{ zIndex: 6, position: 'relative' }}>
         <div 
-          className="flex items-center justify-center gap-4 mt-8 pointer-events-auto"
+          className="flex flex-col items-center gap-32 mt-3"
           style={{
-            opacity: fadeOutProgress > 0 ? Math.max(1 - fadeOutProgress * 1.5, 0) : cardAnimProgress,
-            transform: `translateY(${fadeOutProgress > 0 ? fadeOutProgress * 50 : (1 - cardAnimProgress) * 50}px)`,
-            transition: 'all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)'
+            opacity: titleAnimProgress >= 0.55
+              ? fadeOutProgress > 0
+                ? Math.max(1 - fadeOutProgress * 1.05, 0)
+                : 1
+              : 0,
+            transform: `translateY(${titleAnimProgress >= 0.55
+              ? fadeOutProgress > 0
+                ? fadeOutProgress * 20
+                : 0
+              : 18}px)`,
+            transition: 'opacity 0.45s ease-out, transform 0.45s ease-out',
+            pointerEvents: titleAnimProgress >= 0.55 ? 'auto' : 'none'
           }}
         >
-          <button
-            onClick={(e) => { e.stopPropagation(); prevSlide(); }}
-            className="p-2 focus:outline-none"
-            style={{ color: '#6a4e2e' }}
-            aria-label="Previous slide"
-          >
-            <svg className="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" fill="currentColor" stroke="currentColor"></path>
-            </svg>
-          </button>
-          <div className="flex items-center justify-center space-x-2">
-            {images.map((_, index) => (
+          <div className="flex flex-col items-center gap-2">
+            <p className="text-sm text-[#3E2723]" style={{ textShadow: '0 1px 2px rgba(255, 255, 255, 0.6)' }}>
+              ※掲載中の制作実績は一部抜粋です。
+            </p>
+            <div className="flex items-center justify-center gap-4">
               <button
-                key={index}
-                onClick={(e) => { e.stopPropagation(); setCurrentIndex(index); }}
-                className="w-3 h-3 rounded-full transition-all duration-300 ease-in-out hover:scale-110"
-                style={{ background: index === currentIndex ? '#6a4e2e' : 'rgba(106, 78, 46, 0.3)' }}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
+                onClick={(e) => { e.stopPropagation(); prevSlide(); }}
+                className="p-2 focus:outline-none"
+                style={{ color: ACCENT_COLOR }}
+                aria-label="Previous slide"
+              >
+                <svg className="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" fill="currentColor" stroke="currentColor"></path>
+                </svg>
+              </button>
+              <div className="flex items-center justify-center space-x-2">
+                {images.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={(e) => { e.stopPropagation(); setCurrentIndex(index); }}
+                    className="w-3 h-3 rounded-full transition-all duration-300 ease-in-out hover:scale-110"
+                    style={{ background: index === currentIndex ? ACCENT_COLOR : 'rgba(77, 111, 77, 0.3)' }}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+              <button
+                onClick={(e) => { e.stopPropagation(); nextSlide(); }}
+                className="p-2 focus:outline-none"
+                style={{ color: ACCENT_COLOR }}
+                aria-label="Next slide"
+              >
+                <svg className="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" fill="currentColor" stroke="currentColor"></path>
+                </svg>
+              </button>
+            </div>
           </div>
-          <button
-            onClick={(e) => { e.stopPropagation(); nextSlide(); }}
-            className="p-2 focus:outline-none"
-            style={{ color: '#6a4e2e' }}
-            aria-label="Next slide"
-          >
-            <svg className="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" fill="currentColor" stroke="currentColor"></path>
-            </svg>
-          </button>
+          <div aria-hidden="true" />
         </div>
-
-        {/* ドットは上のコントロール内に統合 */}
       </div>
 
       {/* プロジェクト詳細モーダル - Portalで最上位に表示 */}

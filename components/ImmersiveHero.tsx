@@ -119,7 +119,7 @@ export default function ImmersiveHero() {
           transform: `translateY(${Math.max(50 - scrollProgress * 100, 0)}px)`,
         }}
       >
-        <div className="min-h-screen bg-gradient-to-b from-transparent to-[rgb(251,247,235)]">
+        <div className="min-h-screen bg-gradient-to-b from-transparent via-white/90 to-white">
           <div className="container mx-auto px-4 py-20">
             <div className="max-w-3xl mx-auto text-center">
               <h3 className="text-lg md:text-xl font-bold mb-4" style={{ color: '#3E2723' }}>

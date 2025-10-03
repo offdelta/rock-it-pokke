@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { ACCENT_COLOR } from './theme';
 
 // プロジェクトデータの型定義
 interface Project {
@@ -231,7 +232,7 @@ export default function CarouselSection() { // コンポーネント名を変更
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-sm font-medium pointer-events-auto z-30 relative hover:underline"
-                      style={{ color: '#6a4e2e' }}
+                      style={{ color: ACCENT_COLOR }}
                       onClick={(e) => e.stopPropagation()}
                     >
                       詳細を見る
@@ -243,7 +244,7 @@ export default function CarouselSection() { // コンポーネント名を変更
                         target="_blank"
                         rel="noopener noreferrer"
                         className="transition-colors duration-200 pointer-events-auto z-30 relative"
-                        style={{ color: '#6a4e2e' }}
+                        style={{ color: ACCENT_COLOR }}
                         aria-label="GitHub Repository"
                         onClick={(e) => e.stopPropagation()}
                       >
@@ -283,7 +284,7 @@ export default function CarouselSection() { // コンポーネント名を変更
         <button
           onClick={(e) => { e.stopPropagation(); prevImage(); }}
           className="p-2 focus:outline-none"
-          style={{ color: '#6a4e2e' }}
+          style={{ color: ACCENT_COLOR }}
           aria-label="Previous image"
         >
           <svg className="w-6 h-6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -297,7 +298,7 @@ export default function CarouselSection() { // コンポーネント名を変更
               key={index}
               onClick={(e) => { e.stopPropagation(); handleImageClick(index); }}
               className="w-3 h-3 rounded-full transition-all duration-300 ease-in-out hover:scale-110"
-              style={{ background: index === currentIndex ? '#6a4e2e' : 'rgba(106, 78, 46, 0.3)' }}
+              style={{ background: index === currentIndex ? ACCENT_COLOR : 'rgba(77, 111, 77, 0.3)' }}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
@@ -306,7 +307,7 @@ export default function CarouselSection() { // コンポーネント名を変更
         <button
           onClick={(e) => { e.stopPropagation(); nextImage(); }}
           className="p-2 focus:outline-none"
-          style={{ color: '#6a4e2e' }}
+          style={{ color: ACCENT_COLOR }}
           aria-label="Next image"
         >
           <svg className="w-6 h-6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
