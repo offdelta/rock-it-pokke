@@ -26,7 +26,7 @@ const menuItems = [
     )
   },
   {
-    href: 'mailto:hello@example.com',
+    href: 'mailto:magentaismyfavorite@gmail.com',
     label: 'お問い合わせ',
     icon: (
       <svg
